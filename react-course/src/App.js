@@ -1,15 +1,19 @@
-import logo from "./logo.svg";
-import "./App.css";
-import Todo from "./components/Todo";
+import React, { Fragment } from "react";
+import { Route, Routes } from "react-router-dom";
+
+import AllMeetupsPage from "./pages/AllMeetups";
+import NewMeetupPage from "./pages/NewMeetup";
+import FavoritesPage from "./pages/Favorites";
 
 function App() {
   return (
-    <div>
-      <h1>My Todos</h1>
-      <Todo text="Learn" />
-      <Todo text="Study" />
-      <Todo text="Master" />
-    </div>
+    <Fragment>
+      <Routes>
+        <Route path="/" element={<AllMeetupsPage />}></Route>
+        <Route path="/new-meetup" element={<NewMeetupPage />}></Route>
+        <Route path="/favorites" element={<FavoritesPage />}></Route>
+      </Routes>
+    </Fragment>
   );
 }
 
