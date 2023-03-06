@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Layout from "./components/layout/Layout";
@@ -6,12 +6,10 @@ import Layout from "./components/layout/Layout";
 import AllMeetupsPage from "./pages/AllMeetups";
 import NewMeetupPage from "./pages/NewMeetup";
 import FavoritesPage from "./pages/Favorites";
-import MainNavigation from "./components/layout/MainNavigation";
 
 function App() {
   return (
     <Layout>
-      <MainNavigation />
       <Routes>
         <Route path="/" element={<AllMeetupsPage />}></Route>
         <Route path="/new-meetup" element={<NewMeetupPage />}></Route>
