@@ -1,19 +1,39 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import { getFilteredEvents } from "../../helpers/api-util";
 import EventList from "../../components/events/event-list";
 import ResultsTitle from "../../components/events/results-title";
 import Button from "../../components/ui/button";
 import ErrorAlert from "../../components/ui/error-alert";
+import useSWR from "swr";
 
 function FilteredEventsPage(props) {
+  const [loadEvents, setLoadEvents] = useState();
   // const router = useRouter();
 
   // const filterData = router.query.slug;
 
-  // if (!filterData) {
-  //   return <p className="center">Loading...</p>;
-  // }
+  const { data, error } = useSWR(
+    "https://nextjs-course-e6670-default-rtdb.firebaseio.com/events.json"
+  );
+  useEffect(() => {
+    if (data) {
+      const events = [];
+
+      for (const key in data) {
+        events.push({
+          id: key,
+          ...data[key],
+        });
+      }
+
+      setLoadEvents(events);
+    }
+  });
+
+  if (!loadEvents) {
+    return <p className="center">Loading...</p>;
+  }
 
   if (props.hasError) {
     <Fragment>
