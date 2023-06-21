@@ -1,33 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import classes from './contact-form.module.css';
-import Notification from '../ui/notification';
-
-async function sendContactData(contactDetails) {
-  const response = await fetch('/api/contact', {
-    method: 'POST',
-    body: JSON.stringify(contactDetails),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || 'Something went wrong!');
-  }
-}
+import classes from "./contact-form.module.css";
+import Notification from "../ui/notification";
 
 function ContactForm() {
-  const [enteredEmail, setEnteredEmail] = useState('');
-  const [enteredName, setEnteredName] = useState('');
-  const [enteredMessage, setEnteredMessage] = useState('');
+  const [enteredEmail, setEnteredeEmail] = useState("");
+  const [enteredName, setEnteredeName] = useState("");
+  const [enteredMessage, setEnteredeMessage] = useState("");
   const [requestStatus, setRequestStatus] = useState(); // 'pending', 'success', 'error'
   const [requestError, setRequestError] = useState();
 
   useEffect(() => {
-    if (requestStatus === 'success' || requestStatus === 'error') {
+    if (requestStatus === "success" || requestStatus === "error") {
       const timer = setTimeout(() => {
         setRequestStatus(null);
         setRequestError(null);
@@ -37,12 +21,26 @@ function ContactForm() {
     }
   }, [requestStatus]);
 
+  async function sendContactData(contactDetails) {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      body: JSON.stringify(contactDetails),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong!");
+    }
+  }
+
   async function sendMessageHandler(event) {
     event.preventDefault();
 
-    // optional: add client-side validation
-
-    setRequestStatus('pending');
+    setRequestStatus("pending");
 
     try {
       await sendContactData({
@@ -50,38 +48,38 @@ function ContactForm() {
         name: enteredName,
         message: enteredMessage,
       });
-      setRequestStatus('success');
-      setEnteredMessage('');
-      setEnteredEmail('');
-      setEnteredName('');
+      setRequestStatus("success");
+      setEnteredeEmail("");
+      setEnteredeName("");
+      setEnteredeMessage("");
     } catch (error) {
       setRequestError(error.message);
-      setRequestStatus('error');
+      setRequestStatus("error");
     }
   }
 
   let notification;
 
-  if (requestStatus === 'pending') {
+  if (requestStatus === "pending") {
     notification = {
-      status: 'pending',
-      title: 'Sending message...',
-      message: 'Your message is on its way!',
+      status: "pending",
+      title: "Sending message...",
+      message: "Your message is on its way!",
     };
   }
 
-  if (requestStatus === 'success') {
+  if (requestStatus === "success") {
     notification = {
-      status: 'success',
-      title: 'Success!',
-      message: 'Message sent successfully!',
+      status: "success",
+      title: "Success!",
+      message: "Message sent successfully!",
     };
   }
 
-  if (requestStatus === 'error') {
+  if (requestStatus === "error") {
     notification = {
-      status: 'error',
-      title: 'Error!',
+      status: "error",
+      title: "Error!",
       message: requestError,
     };
   }
@@ -92,34 +90,33 @@ function ContactForm() {
       <form className={classes.form} onSubmit={sendMessageHandler}>
         <div className={classes.controls}>
           <div className={classes.control}>
-            <label htmlFor='email'>Your Email</label>
+            <label htmlFor="email">Your Email</label>
             <input
-              type='email'
-              id='email'
+              type="email"
+              id="email"
               required
               value={enteredEmail}
-              onChange={(event) => setEnteredEmail(event.target.value)}
+              onChange={(event) => setEnteredeEmail(event.target.value)}
             />
           </div>
           <div className={classes.control}>
-            <label htmlFor='name'>Your Name</label>
+            <label htmlFor="name">Your Name</label>
             <input
-              type='text'
-              id='name'
+              type="text"
+              id="name"
               required
               value={enteredName}
-              onChange={(event) => setEnteredName(event.target.value)}
+              onChange={(event) => setEnteredeName(event.target.value)}
             />
           </div>
         </div>
         <div className={classes.control}>
-          <label htmlFor='message'>Your Message</label>
+          <label htmlFor="message">Your Message</label>
           <textarea
-            id='message'
-            rows='5'
-            required
+            id="message"
+            rows="5"
             value={enteredMessage}
-            onChange={(event) => setEnteredMessage(event.target.value)}
+            onChange={(event) => setEnteredeMessage(event.target.value)}
           ></textarea>
         </div>
 
